@@ -10,7 +10,8 @@ A simple portfolio website — built with **Next js**, **TypeScript**
 
 
 * A portfolio showcase website.
-
+* Showing Portfolio and blogs
+* owner can manage Portfolio and blogs
 
 
 #### ⚙️ How to Set Up Locally
