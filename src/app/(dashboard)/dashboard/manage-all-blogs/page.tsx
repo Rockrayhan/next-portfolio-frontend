@@ -11,15 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-interface IBlog {
-  _id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  createdAt: string;
-  updatedAt: string;
-}
+import { IBlog } from "@/types";
 
 const ManageAllBlogs = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);

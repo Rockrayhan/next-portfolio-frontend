@@ -4,14 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-interface IBlog {
-  _id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  image: string;
-}
+import { IBlog } from "@/types";
 
 const EditBlogPage = () => {
   const { blogId } = useParams();
@@ -55,7 +48,7 @@ const EditBlogPage = () => {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className="px-4 py-10 max-w-3xl mx-auto">
+    <div className="px-4 py-10 max-w-6xl">
       <h1 className="text-3xl font-bold mb-6">Edit Blog</h1>
       <div className="space-y-4">
         <div>
