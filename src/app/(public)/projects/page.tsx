@@ -13,7 +13,6 @@ const AllProjectsPage = async () => {
   });
 
   const projects = await res.json();
-  // const projects = result?.data ;
 
   return (
     <div className="py-20 px-4 max-w-7xl mx-auto">

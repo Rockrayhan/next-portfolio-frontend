@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, LogOut } from "lucide-react";
+import { Home, LogOut, LayoutDashboard, TableOfContents } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 export default function Sidebar() {
@@ -18,7 +18,16 @@ export default function Sidebar() {
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
         >
           <Home className="h-4 w-4" />
-          Home
+          Home Page
+        </Link>
+
+
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
+        >
+          <LayoutDashboard className="h-4 w-4"/>
+          Dashboard
         </Link>
 
 
@@ -26,7 +35,7 @@ export default function Sidebar() {
           href="/dashboard/manage-all-blogs"
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
         >
-          <PlusCircle className="h-4 w-4" />
+          <TableOfContents className="h-4 w-4"/>
           Manage All Blogs
         </Link>
 
@@ -36,7 +45,7 @@ export default function Sidebar() {
           href="/dashboard/manage-all-projects"
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
         >
-          <PlusCircle className="h-4 w-4" />
+          <TableOfContents className="h-4 w-4"/>
           Manage All Projects
         </Link>
       </nav>

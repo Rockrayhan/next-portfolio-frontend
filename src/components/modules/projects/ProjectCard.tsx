@@ -6,10 +6,7 @@ export default function ProjectCard({ project }: { project: IProject }) {
   console.log(project);
 
   return (
-    <Link
-      href={`/projects/${project._id}`}
-      className="block group transform hover:-translate-y-1 transition-transform duration-300"
-    >
+    <div className="block group transform hover:-translate-y-1 transition-transform duration-300">
       <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-transform duration-300 hover:-translate-y-1">
         {/* Thumbnail */}
         {project.thumbnail ? (
@@ -48,31 +45,34 @@ export default function ProjectCard({ project }: { project: IProject }) {
           </div>
 
           <div className="flex justify-between items-center mt-4 gap-2">
-            {/* {project.projectLink && (
-              <a
+            {project.projectLink && (
+              <Link
                 href={project.projectLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-600 dark:text-blue-400 font-semibold hover:underline"
               >
                 View Code →
-              </a>
+              </Link>
             )}
 
             {project.liveSite && (
-              <a
+              <Link
                 href={project.liveSite}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-green-600 dark:text-green-400 font-semibold hover:underline"
               >
                 Live Demo →
-              </a>
-            )} */}
+              </Link>
+            )}
 
+            <div className="text-black">
+              <Link href={`/projects/${project._id}`}> See details →</Link>
+            </div>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

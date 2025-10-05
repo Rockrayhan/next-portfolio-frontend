@@ -6,50 +6,40 @@ export default function BlogCard({ post }: { post: any }) {
   return (
     <Link
       href={`/blogs/${post._id}`}
-      className="block group transform hover:-translate-y-1 transition-transform duration-300"
+      className="block group transform hover:-translate-y-2 transition-transform duration-300"
     >
-      <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+      <div className="bg-gray-00 dark:bg-gray-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-700">
+        {/* Image */}
         {post.image ? (
-          <div className="relative h-56 w-full overflow-hidden">
+          <div className="relative h-64 w-full overflow-hidden">
             <Image
               src={post.image}
               alt={post.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           </div>
         ) : (
-          <div className="h-56 w-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-300">
+          <div className="h-64 w-full bg-gray-700 flex items-center justify-center text-gray-300">
             No Image
           </div>
         )}
 
-        <div className="p-6">
-          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
-            {post.title}
-          </h3>
+        {/* Content */}
+        <div className="p-6 flex flex-col justify-between h-52">
+          <div>
+            <h3 className="text-2xl font-semibold mb-3 group-hover:text-indigo-400 transition-colors">
+              {post.title}
+            </h3>
 
-          <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
-            {post.content}
-          </p>
-
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Image
-                src="https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-                alt="author-name"
-                width={36}
-                height={36}
-                className="rounded-full border-2 border-gray-200 dark:border-gray-700"
-              />
-            </div>
-            <span className="text-gray-500 dark:text-gray-400 text-sm">
-              views
-            </span>
+            <p className="text-gray-900 mb-4 line-clamp-4 text-sm sm:text-base">
+              {post.content}
+            </p>
           </div>
 
-          <div className="text-right">
-            <span className="text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline">
+          <div className="mt-3 text-right">
+            <span className="text-indigo-400 font-semibold text-sm hover:underline transition-colors">
               Read More →
             </span>
           </div>
