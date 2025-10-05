@@ -45,6 +45,9 @@ const BlogDetailsPage = async ({
   const blog = await res.json();
   return (
     <div className="px-4 max-w-7xl mx-auto">
+
+      <h1> blog details page  {blogId}  </h1>
+
       <BlogDetailsCard blog={blog} />
     </div>
   );

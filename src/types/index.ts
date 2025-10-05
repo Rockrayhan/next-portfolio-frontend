@@ -9,3 +9,16 @@ export interface IBlog {
     updatedAt: Date;
 }
 
+
+
+export interface IProject {
+  _id: string;
+  title: string;
+  thumbnail?: string;
+  projectLink?: string;
+  liveSite?: string;
+  description?: string;
+  features?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
