@@ -11,8 +11,7 @@ const DashboardHomePage = async () => {
     <div>
       <h1>Dashboard Home Page</h1>
       <p>
-        {" "}
-        Welcome <b> {session?.user?.name} </b>{" "}
+        Welcome <b> {session?.user?.name} </b>
       </p>
     </div>
   );

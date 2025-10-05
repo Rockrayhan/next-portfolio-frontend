@@ -1,12 +1,10 @@
 "use client";
 
 import { createBlog } from "@/actions/create";
+import { Button } from "@/components/ui/button";
 import Form from "next/form";
 
-
 export default function CreateBlogForm() {
-
-
   return (
     <Form
       action={createBlog}
@@ -67,12 +65,7 @@ export default function CreateBlogForm() {
         />
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition"
-      >
-        Submit
-      </button>
+      <Button type="submit" className="px-16">Submit</Button>
     </Form>
   );
 }

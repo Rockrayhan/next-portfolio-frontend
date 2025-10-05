@@ -47,9 +47,6 @@ const ProjectDetailsPage = async ({
   return (
     <div className="px-4 max-w-7xl mx-auto">
 
-      <h1> Project details page  {projectId}  </h1>
-
-      {/* <BlogDetailsCard blog={blog} /> */}
       <ProjectDetailsCard project={project}/>
     </div>
   );

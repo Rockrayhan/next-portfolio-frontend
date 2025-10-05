@@ -27,7 +27,7 @@ export const createBlog = async (data: FormData) => {
 
   if (result?.blog?._id) {
     revalidateTag('BLOGS');
-    redirect("/");
+    redirect("/dashboard/create-blog");
   }
   return result;
 };
