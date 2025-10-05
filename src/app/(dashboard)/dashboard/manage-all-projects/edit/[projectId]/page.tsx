@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Loading from "@/components/ui/Loading";
+import toast from "react-hot-toast";
 
 interface IProject {
   title: string;
@@ -55,7 +56,7 @@ const EditProjectPage = () => {
         });
       } catch (error) {
         console.error("Failed to load project:", error);
-        alert("Failed to load project details.");
+        toast.error("Failed to load project details.");
       } finally {
         setLoading(false);
       }
@@ -64,14 +65,12 @@ const EditProjectPage = () => {
     if (projectId) fetchProject();
   }, [projectId]);
 
-  // Handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-  // Update project
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -98,25 +97,24 @@ const EditProjectPage = () => {
 
       if (!res.ok) throw new Error("Failed to update project");
 
-      alert("✅ Project updated successfully!");
+      toast.success("Project updated successfully!");
       router.push("/dashboard/manage-all-projects");
-      router.refresh();
     } catch (error) {
       console.error("Error updating project:", error);
-      alert("❌ Failed to update project.");
+      toast.error("Failed to update project.");
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
 
   return (
-    <div className="flex justify-center items-center  bg-gray-50 w-full">
-      <div className=" bg-white p-8 rounded-lg shadow-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Edit Project</h1>
+    <div className="w-4/6 mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-8 text-center">Edit Project</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-5 w-full">
+      <div className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
           <div>
             <Label>Title</Label>
@@ -125,6 +123,7 @@ const EditProjectPage = () => {
               name="title"
               value={project.title}
               onChange={handleChange}
+              placeholder="Project title"
               required
             />
           </div>
@@ -135,9 +134,9 @@ const EditProjectPage = () => {
             <Input
               type="url"
               name="thumbnail"
-              placeholder="https://i.ibb.co/example-thumbnail.jpg"
               value={project.thumbnail}
               onChange={handleChange}
+              placeholder="https://i.ibb.co/example-thumbnail.jpg"
               required
             />
           </div>
@@ -148,9 +147,9 @@ const EditProjectPage = () => {
             <Input
               type="url"
               name="projectLink"
-              placeholder="https://github.com/username/project"
               value={project.projectLink}
               onChange={handleChange}
+              placeholder="https://github.com/username/project"
               required
             />
           </div>
@@ -161,9 +160,9 @@ const EditProjectPage = () => {
             <Input
               type="url"
               name="liveSite"
-              placeholder="https://project.vercel.app"
               value={project.liveSite}
               onChange={handleChange}
+              placeholder="https://project.vercel.app"
               required
             />
           </div>
@@ -176,6 +175,7 @@ const EditProjectPage = () => {
               rows={4}
               value={project.description}
               onChange={handleChange}
+              placeholder="Project description..."
               required
             />
           </div>
@@ -186,21 +186,17 @@ const EditProjectPage = () => {
             <Input
               type="text"
               name="features"
-              placeholder="Responsive design, Dark mode, Contact form"
               value={
                 Array.isArray(project.features)
                   ? project.features.join(", ")
                   : project.features
               }
               onChange={handleChange}
+              placeholder="Responsive design, Dark mode, Contact form"
             />
           </div>
 
-          <Button
-            type="submit"
-            disabled={saving}
-            className="px-12"
-          >
+          <Button type="submit" disabled={saving} className="w-full">
             {saving ? "Updating..." : "Update Project"}
           </Button>
         </form>

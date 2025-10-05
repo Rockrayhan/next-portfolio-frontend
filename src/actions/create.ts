@@ -2,6 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const createBlog = async (data: FormData) => {
   const blogInfo = Object.fromEntries(data.entries());
@@ -27,7 +28,7 @@ export const createBlog = async (data: FormData) => {
 
   if (result?.blog?._id) {
     revalidateTag('BLOGS');
-    redirect("/dashboard/create-blog");
+    redirect("/dashboard/manage-all-blogs");
   }
   return result;
 };
@@ -57,7 +58,7 @@ export const createProject = async (data: FormData) => {
 
   if (result?.data?._id) {
     revalidateTag("PROJECTS");
-    redirect("/dashboard");
+    redirect("/dashboard/manage-all-blogs");
   }
 
   return result;

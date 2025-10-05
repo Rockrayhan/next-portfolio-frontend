@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { IBlog } from "@/types";
 import Loading from "@/components/ui/Loading";
+import toast from "react-hot-toast";
 
 const EditBlogPage = () => {
   const { blogId } = useParams();
@@ -16,64 +18,111 @@ const EditBlogPage = () => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [image, setImage] = useState("");
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`
-      );
-      const data = await res.json();
-      setBlog(data);
-      setTitle(data.title);
-      setContent(data.content);
-      setTags(data.tags.join(", "));
-      setImage(data.image || "");
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`
+        );
+        const data = await res.json();
+        setBlog(data);
+        setTitle(data.title);
+        setContent(data.content);
+        setTags(data.tags.join(", "));
+        setImage(data.image || "");
+      } catch (error) {
+        console.error("Failed to fetch blog:", error);
+        toast.error("Failed to load blog details");
+      }
     };
     fetchBlog();
   }, [blogId]);
 
   const handleUpdate = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        content,
-        tags: tags.split(",").map((t) => t.trim()),
-        image,
-      }),
-    });
-    router.push("/dashboard/manage-all-blogs");
+    setUpdating(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          content,
+          tags: tags.split(",").map((t) => t.trim()),
+          image,
+        }),
+      });
+      if (!res.ok) throw new Error("Update failed");
+      toast.success("Blog updated successfully!");
+      router.push("/dashboard/manage-all-blogs");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update blog");
+    } finally {
+      setUpdating(false);
+    }
   };
 
-  if (!blog) return <Loading/>;
+  if (!blog) return <Loading />;
 
   return (
-    <div className="px-4 py-10 max-w-6xl">
-      <h1 className="text-3xl font-bold mb-6">Edit Blog</h1>
-      <div className="space-y-4">
+    <div className="w-4/6 mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-8 text-center">Edit Blog</h1>
+
+      <div className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-6 space-y-6">
         <div>
-          <label>Title</label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-        </div>
-        <div>
-          <label>Content</label>
-          <textarea
-            className="w-full border rounded-md p-2"
-            rows={6}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+            Title
+          </label>
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter blog title"
           />
         </div>
+
         <div>
-          <label>Tags (comma separated)</label>
-          <Input value={tags} onChange={(e) => setTags(e.target.value)} />
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+            Content
+          </label>
+          <Textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={6}
+            placeholder="Write your blog content here..."
+          />
         </div>
+
         <div>
-          <label>Image URL</label>
-          <Input value={image} onChange={(e) => setImage(e.target.value)} />
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+            Tags (comma separated)
+          </label>
+          <Input
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="e.g. React, Next.js, Web Development"
+          />
         </div>
-        <Button onClick={handleUpdate}>Update Blog</Button>
+
+        <div>
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+            Image URL
+          </label>
+          <Input
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            placeholder="https://example.com/image.jpg"
+          />
+        </div>
+
+        <Button
+          onClick={handleUpdate}
+          disabled={updating}
+          className="w-full"
+        >
+          {updating ? "Updating..." : "Update Blog"}
+        </Button>
       </div>
     </div>
   );
