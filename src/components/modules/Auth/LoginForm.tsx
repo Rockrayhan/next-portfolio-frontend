@@ -4,7 +4,6 @@ import React from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -13,15 +12,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Image from "next/image";
 import { signIn } from "next-auth/react";
-import { Login } from "@/actions/auth";
 import { useRouter } from "next/navigation";
-
-// type LoginFormValues = {
-//   email: string;
-//   password: string;
-// };
 
 export default function LoginForm() {
   const form = useForm<FieldValues>({
@@ -32,12 +24,10 @@ export default function LoginForm() {
   });
 
   const router = useRouter();
+
   // const onSubmit = async (values: FieldValues) => {
   //   try {
-  //     signIn("credentials", {
-  //       ...values,
-  //       callbackUrl: "/dashboard",
-  //     });
+  //     signIn("credentials", { ...values, callbackUrl: "/dashboard" });
   //   } catch (error) {
   //     console.error(error);
   //     alert("Login failed. try again");
@@ -50,12 +40,12 @@ export default function LoginForm() {
         redirect: false, // handle redirect manually
         email: values.email,
         password: values.password,
+        callbackUrl: process.env.NEXTAUTH_URL + "/dashboard", // absolute URL
       });
 
       if (res?.ok) {
         // Successful login, redirect manually
-        // window.location.href = "/dashboard";
-        router.push("/dashboard");
+        window.location.href = "/dashboard";
       } else {
         alert(res?.error || "Login failed. Try again");
       }
@@ -64,6 +54,7 @@ export default function LoginForm() {
       alert("Login failed. Try again");
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
