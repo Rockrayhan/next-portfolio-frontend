@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IBlog } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const EditBlogPage = () => {
   const { blogId } = useParams();
@@ -45,7 +46,7 @@ const EditBlogPage = () => {
     router.push("/dashboard/manage-all-blogs");
   };
 
-  if (!blog) return <div>Loading...</div>;
+  if (!blog) return <Loading/>;
 
   return (
     <div className="px-4 py-10 max-w-6xl">

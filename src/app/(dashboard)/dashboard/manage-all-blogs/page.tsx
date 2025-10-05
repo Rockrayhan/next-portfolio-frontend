@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IBlog } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const ManageAllBlogs = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
@@ -44,7 +45,7 @@ const ManageAllBlogs = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="px-4 py-10">

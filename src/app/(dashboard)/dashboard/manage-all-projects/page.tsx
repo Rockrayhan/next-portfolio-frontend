@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IProject } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const ManageAllProjects = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -45,7 +46,7 @@ const ManageAllProjects = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="px-4 py-10">

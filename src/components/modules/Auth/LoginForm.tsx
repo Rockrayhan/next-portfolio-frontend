@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function LoginForm() {
   const form = useForm<FieldValues>({
@@ -23,38 +23,25 @@ export default function LoginForm() {
     },
   });
 
-  const router = useRouter();
-
-  // const onSubmit = async (values: FieldValues) => {
-  //   try {
-  //     signIn("credentials", { ...values, callbackUrl: "/dashboard" });
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Login failed. try again");
-  //   }
-  // };
-
   const onSubmit = async (values: FieldValues) => {
     try {
       const res = await signIn("credentials", {
-        redirect: false, // handle redirect manually
+        redirect: false,
         email: values.email,
         password: values.password,
-        callbackUrl: process.env.NEXTAUTH_URL + "/dashboard", // absolute URL
       });
 
       if (res?.ok) {
-        // Successful login, redirect manually
+        toast.success("Login successful!");
         window.location.href = "/dashboard";
       } else {
-        alert(res?.error || "Login failed. Try again");
+        toast.error( "Login failed. Please check your credentials.");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Login failed. Try again");
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong. Please try again later.");
     }
   };
-
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -74,11 +61,7 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Enter your email"
-                      {...field}
-                    />
+                    <Input type="email" placeholder="Enter your email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

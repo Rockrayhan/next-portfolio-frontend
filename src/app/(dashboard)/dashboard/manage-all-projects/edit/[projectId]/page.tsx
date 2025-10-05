@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import Loading from "@/components/ui/Loading";
 
 interface IProject {
   title: string;
@@ -108,7 +109,7 @@ const EditProjectPage = () => {
     }
   };
 
-  if (loading) return <div className="p-8">Loading project...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="flex justify-center items-center  bg-gray-50 w-full">
