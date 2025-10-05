@@ -32,27 +32,37 @@ export default function LoginForm() {
   });
 
   const router = useRouter();
+  // const onSubmit = async (values: FieldValues) => {
+  //   try {
+  //     signIn("credentials", {
+  //       ...values,
+  //       callbackUrl: "/dashboard",
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Login failed. try again");
+  //   }
+  // };
+
   const onSubmit = async (values: FieldValues) => {
     try {
-      // const res = await Login(values);
-      // if (res?.id) {
-      //   alert("user Login Successfully");
-      //   router.push("/");
-      // }
+      const res = await signIn("credentials", {
+        redirect: false, // handle redirect manually
+        email: values.email,
+        password: values.password,
+      });
 
-      signIn("credentials", {
-        ...values,
-        callbackUrl: "/dashboard",
-      })
-
+      if (res?.ok) {
+        // Successful login, redirect manually
+        // window.location.href = "/dashboard";
+        router.push("/dashboard");
+      } else {
+        alert(res?.error || "Login failed. Try again");
+      }
     } catch (error) {
       console.error(error);
-      alert("Login failed. try again");
+      alert("Login failed. Try again");
     }
-  };
-
-  const handleSocialLogin = (provider: "google" | "github") => {
-    console.log(`Login with ${provider}`);
   };
 
   return (
@@ -106,58 +116,8 @@ export default function LoginForm() {
             <Button type="submit" className="w-full mt-2">
               Login
             </Button>
-
-            <div className="flex items-center justify-center space-x-2">
-              <div className="h-px w-16 bg-gray-300" />
-              <span className="text-sm text-gray-500">or continue with</span>
-              <div className="h-px w-16 bg-gray-300" />
-            </div>
           </form>
         </Form>
-        {/* Social Login Buttons */}
-        <div className="flex flex-col gap-3 mt-4">
-          <Button
-            variant="outline"
-            className="flex items-center justify-center gap-2"
-            onClick={() => handleSocialLogin("github")}
-          >
-            {/* GitHub */}
-            <Image
-              src="https://img.icons8.com/ios-glyphs/24/github.png"
-              alt="GitHub"
-              className="w-5 h-5"
-              width={20}
-              height={20}
-            />
-            Login with GitHub
-          </Button>
-
-          <Button
-            variant="outline"
-            className="flex items-center justify-center gap-2"
-            onClick={() =>
-              signIn("google", {
-                callbackUrl: "/dashboard",
-              })
-            }
-          >
-            {/* Google */}
-            <Image
-              src="https://img.icons8.com/color/24/google-logo.png"
-              alt="Google"
-              className="w-5 h-5"
-              width={20}
-              height={20}
-            />
-            Login with Google
-          </Button>
-        </div>
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Don’t have an account?{" "}
-          <Link href="/register" className="text-blue-500 hover:underline">
-            Register
-          </Link>
-        </p>
       </div>
     </div>
   );
